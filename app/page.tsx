@@ -1,11 +1,9 @@
-import Footer from "components/footer";
-import Header from "components/header";
+import Auth from "components/auth";
 
 export default function Home() {
   return (
-    <main className="w-full">
-      <Header />
-      <Footer />
+    <main className="h-screen w-screen flex justify-center items-center bg-gradient-to-br from-purple-50 to-light-blue-50">
+      <Auth />
     </main>
   );
 }
