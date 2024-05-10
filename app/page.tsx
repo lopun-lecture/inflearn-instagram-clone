@@ -1,3 +1,4 @@
+import { getAllUsers } from "actions/user-actions";
 import LogoutButton from "components/auth/logout-button";
 import { createServerSupabaseClient } from "utils/supabase/server";
 

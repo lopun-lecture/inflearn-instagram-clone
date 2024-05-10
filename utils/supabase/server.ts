@@ -2,13 +2,17 @@
 
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { Database } from "types_db";
 
 export const createServerSupabaseClient = async (
-  cookieStore: ReturnType<typeof cookies> = cookies()
+  cookieStore: ReturnType<typeof cookies> = cookies(),
+  admin: boolean = false
 ) => {
-  return createServerClient(
+  return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    admin
+      ? process.env.NEXT_SUPABASE_SERVICE_ROLE!
+      : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
@@ -35,4 +39,10 @@ export const createServerSupabaseClient = async (
       },
     }
   );
+};
+
+export const createServerSupabaseAdminClient = async (
+  cookieStore: ReturnType<typeof cookies> = cookies()
+) => {
+  return createServerSupabaseClient(cookieStore, true);
 };

@@ -1,34 +1,35 @@
 "use client";
 
-// @ts-ignore
-import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import {
-  MainContainer,
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-} from "@chatscope/chat-ui-kit-react";
+import { getRandomImage } from "utils/image-util";
+import ChatPeopleList from "./ChatPeopleList";
+import ChatScreen from "./ChatScreen";
+import { useState } from "react";
 
-export default function ChatList() {
+export default function ChatList({ allUsers, currentUser }) {
+  const [activeUserId, setActiveUserId] = useState(null);
+
   return (
-    <div style={{ position: "relative", height: "500px" }}>
-      <MainContainer>
-        <ChatContainer>
-          <MessageList>
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "just now",
-                sender: "Joe",
-                direction: "incoming",
-                position: "normal",
-              }}
-            />
-          </MessageList>
-          <MessageInput placeholder="Type message here" />
-        </ChatContainer>
-      </MainContainer>
+    <div className="w-full h-screen flex bg-gray-50">
+      <ChatPeopleList
+        allUsers={allUsers}
+        activeUserId={activeUserId}
+        setActiveUserId={setActiveUserId}
+        currentUser={currentUser}
+      />
+      {activeUserId && (
+        <ChatScreen
+          chatUser={{
+            id: activeUserId,
+            name: allUsers
+              .find((user) => user.id === activeUserId)
+              .email.split("@")[0],
+            imageUrl: getRandomImage(
+              allUsers.findIndex((user) => user.id === activeUserId) + 1
+            ),
+          }}
+          currentUser={currentUser}
+        />
+      )}
     </div>
   );
 }

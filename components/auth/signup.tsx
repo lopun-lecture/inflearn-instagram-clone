@@ -6,6 +6,7 @@ export default function SignUp({ setView }) {
   const supabase = createBrowserSupabaseClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <div className="flex flex-col gap-4">
@@ -27,6 +28,7 @@ export default function SignUp({ setView }) {
         />
         <Button
           onClick={() => {
+            setDisabled(true);
             supabase.auth.signUp({
               email,
               password,
@@ -35,7 +37,7 @@ export default function SignUp({ setView }) {
           color="light-blue"
           className="w-full text-md py-1"
         >
-          가입하기
+          {disabled ? "메일함을 확인하세요" : "가입하기"}
         </Button>
       </div>
 
